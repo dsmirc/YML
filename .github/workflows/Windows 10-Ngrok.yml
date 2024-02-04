@@ -24,8 +24,8 @@ jobs:
     - name: Create Tunnel
       run: |
         $ngrokProcess = Start-Process -FilePath .\ngrok\ngrok.exe -ArgumentList "tcp", "3389" -PassThru
-        $endpoint = Wait-Process -Id $ngrokProcess.Id | ForEach-Object { $_.StartInfo.Arguments -replace '.*?tcp\s+(\S+)', '$1' }
-        Write-Host "Ngrok Tunnel Endpoint: $endpoint"
+        $ngrokOutput = $ngrokProcess.StandardOutput.ReadToEnd()
+        Write-Host "Ngrok Tunnel Output: $ngrokOutput"
       shell: pwsh  # Use PowerShell for the inline script
 
     - name: Upload Artifacts
