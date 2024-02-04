@@ -24,6 +24,7 @@ jobs:
     - name: Create Tunnel
       run: |
         $ngrokProcess = Start-Process -FilePath .\ngrok\ngrok.exe -ArgumentList "tcp", "3389" -PassThru
+        Start-Sleep -Seconds 5  # Allow some time for ngrok to initialize
         $ngrokOutput = $ngrokProcess.StandardOutput.ReadToEnd()
         Write-Host "Ngrok Tunnel Output: $ngrokOutput"
       shell: pwsh  # Use PowerShell for the inline script
