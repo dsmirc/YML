@@ -1,4 +1,4 @@
-name: Ubuntu
+name: ubuntu-ssh
 
 on: [push, workflow_dispatch]
 
@@ -25,7 +25,7 @@ jobs:
     - name: Enable SSH
       run: |
         sudo systemctl start ssh
-        echo 'ubuntu:${{ secrets.Password }}' | sudo chpasswd
+        echo 'ubuntu:P@ssw0rd!' | sudo chpasswd
 
     - name: Create Tunnel
       run: ngrok tcp 22
