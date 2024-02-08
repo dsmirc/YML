@@ -1,4 +1,4 @@
-name: CI
+name: Ubuntu
 
 on: [push, workflow_dispatch]
 
@@ -23,7 +23,9 @@ jobs:
         NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
 
     - name: Enable SSH
-      run: sudo systemctl start ssh
+      run: |
+        sudo systemctl start ssh
+        echo 'ubuntu:${{ secrets.Password }}' | sudo chpasswd
 
     - name: Create Tunnel
       run: ngrok tcp 22
