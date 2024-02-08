@@ -1,0 +1,36 @@
+name: CI
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install Ngrok and VNC Server
+      run: |
+        sudo apt update
+        sudo apt install -y unzip tightvncserver
+        wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-stable-linux-amd64.zip -O ngrok.zip
+        unzip ngrok.zip
+        sudo mv ngrok /usr/local/bin/ngrok
+        ngrok --version
+
+    - name: Auth
+      run: ngrok authtoken $NGROK_AUTH_TOKEN
+      env:
+        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+
+    - name: Start VNC Server
+      run: vncserver -geometry 1280x720 -depth 24 :1
+
+    - name: Create Tunnel for VNC
+      run: ngrok tcp 5901
+
+    - name: Upload Artifacts
+      if: always()
+      uses: actions/upload-artifact@v4.3.0
+      with:
+        name: downloads
+        path: $HOME
