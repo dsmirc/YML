@@ -32,3 +32,11 @@ jobs:
       with:
         name: downloads
         path: C:\Users\runneradmin\Downloads\
+
+      
+    - name: ReUpload Artifacts
+      if: cancelled()  
+      uses: actions/upload-artifact@v4.3.0
+      with:
+        name: downloads
+        path: C:\Users\runneradmin\Downloads\
